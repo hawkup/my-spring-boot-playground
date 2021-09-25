@@ -18,8 +18,11 @@ public class PaymentService {
     @Transactional
     public void transfer(Long senderId, Long receiverId, Long amount) {
         logTransaction(senderId, receiverId, amount);
-        accountService.decreaseBalance(senderId, amount);
         accountService.increaseBalance(receiverId, amount);
+        try {
+            Thread.sleep(10000);
+        } catch (Exception e) {}
+        accountService.decreaseBalance(senderId, amount);
     }
 
     @Transactional
