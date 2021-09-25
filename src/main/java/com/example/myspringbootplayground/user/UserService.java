@@ -20,7 +20,7 @@ public class UserService {
     }
 
     @Transactional
-    public User updateUser(Integer id, String name, String email) {
+    public User updateUser(Long id, String name, String email) {
         User user = userRepository.findById(id).orElseThrow();
         user.setName(name);
         user.setEmail(email);
