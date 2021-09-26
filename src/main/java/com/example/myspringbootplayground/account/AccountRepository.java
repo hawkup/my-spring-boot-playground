@@ -9,8 +9,7 @@ import javax.persistence.LockModeType;
 import java.util.Optional;
 
 public interface AccountRepository extends CrudRepository<Account, Long> {
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("select a from Account a where a.id = :userId")
+    @Query(value = "select * from account a where a.user_id = :userId FOR UPDATE", nativeQuery = true)
     Optional<Account> findByUserIdLock(@Param("userId") Long userId);
 
     Optional<Account> findByUserId(Long userId);

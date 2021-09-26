@@ -1,6 +1,7 @@
 package com.example.myspringbootplayground.user;
 
 import com.example.myspringbootplayground.account.Account;
+import com.example.myspringbootplayground.coin.Coin;
 
 import javax.persistence.*;
 
@@ -16,6 +17,9 @@ public class User {
 
     @OneToOne(mappedBy = "user")
     private Account account;
+
+    @OneToOne(mappedBy = "user")
+    private Coin coin;
 
     public Long getId() {
         return id;
