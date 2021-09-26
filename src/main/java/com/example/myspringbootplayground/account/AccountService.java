@@ -5,7 +5,6 @@ import com.example.myspringbootplayground.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -33,7 +32,7 @@ public class AccountService {
         return account;
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional
     public Account increaseBalance(Long accountId, Long amount) {
         Account account = accountRepository.findByUserIdLock(accountId).orElseThrow();
         account.setBalance(account.getBalance() + amount);
@@ -42,7 +41,7 @@ public class AccountService {
         return account;
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional
     public Account decreaseBalance(Long accountId, Long amount) {
         Account account = accountRepository.findByUserIdLock(accountId).orElseThrow();
         account.setBalance(account.getBalance() - amount);
