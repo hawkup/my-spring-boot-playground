@@ -26,10 +26,12 @@ public class PaymentService {
 
         try {
             Thread.sleep(10000);
-        } catch (Exception e) {}
-
-        coinService.increaseCoin(senderId, amount / 10);
-        coinService.increaseCoin(receiverId, amount / 100);
+            coinService.increaseCoin(senderId, amount / 10);
+            coinService.increaseCoin(receiverId, amount / 100);
+        } catch (Exception e) {
+            // Manual rollback
+            accountService.transferBalance(receiverId, senderId, amount);
+        }
     }
 
     @Transactional
