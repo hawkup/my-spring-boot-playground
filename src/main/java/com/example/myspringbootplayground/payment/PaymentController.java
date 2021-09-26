@@ -19,7 +19,7 @@ public class PaymentController {
     PaymentService paymentService;
 
     @PostMapping(path = "/transfer")
-    Account transfer(@RequestBody TransferRequest transferRequest) {
+    Account transfer(@RequestBody TransferRequest transferRequest) throws InterruptedException {
         paymentService.transfer(transferRequest.getSenderId(), transferRequest.getReceiverId(), transferRequest.getAmount());
         return accountService.getAccount(transferRequest.getSenderId());
     }

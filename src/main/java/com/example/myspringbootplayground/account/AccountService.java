@@ -56,8 +56,10 @@ public class AccountService {
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void transferBalance(Long senderId, Long receiverId, Long amount) {
+    public boolean transferBalance(Long senderId, Long receiverId, Long amount) {
         increaseBalance(receiverId, amount);
         decreaseBalance(senderId, amount);
+
+        return true;
     }
 }

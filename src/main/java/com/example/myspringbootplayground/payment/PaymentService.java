@@ -19,18 +19,22 @@ public class PaymentService {
     private PaymentRepository paymentRepository;
 
     @Transactional
-    public void transfer(Long senderId, Long receiverId, Long amount) {
-        logTransaction(senderId, receiverId, amount);
-
-        accountService.transferBalance(senderId, receiverId, amount);
-
+    public void transfer(Long senderId, Long receiverId, Long amount) throws InterruptedException {
+        boolean isSuccess = false;
         try {
+            logTransaction(senderId, receiverId, amount);
+
+            isSuccess = accountService.transferBalance(senderId, receiverId, amount);
+
             Thread.sleep(10000);
             coinService.increaseCoin(senderId, amount / 10);
             coinService.increaseCoin(receiverId, amount / 100);
         } catch (Exception e) {
             // Manual rollback
-            accountService.transferBalance(receiverId, senderId, amount);
+            if (isSuccess) {
+                accountService.transferBalance(receiverId, senderId, amount);
+            }
+            throw e;
         }
     }
 
