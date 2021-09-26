@@ -5,6 +5,7 @@ import com.example.myspringbootplayground.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -52,5 +53,11 @@ public class AccountService {
 
         account = accountRepository.save(account);
         return account;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void transferBalance(Long senderId, Long receiverId, Long amount) {
+        increaseBalance(receiverId, amount);
+        decreaseBalance(senderId, amount);
     }
 }
