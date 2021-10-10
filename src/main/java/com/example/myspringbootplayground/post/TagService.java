@@ -19,7 +19,7 @@ public class TagService {
         Tag tag = tagRepository.findByPostId(postId).orElseThrow();
         System.out.println("getTag: get tags data from tagRepository.findByPostId");
         System.out.println("getTag: sleep");
-        Thread.sleep(5000);
+        Thread.sleep(10000);
         System.out.println("getTag: finish");
         return tag;
     }
@@ -33,7 +33,7 @@ public class TagService {
         tagRepository.save(tag);
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRES_NEW, timeout = 5)
     public void updateTag(Long postId, String name) throws InterruptedException {
         System.out.println("upsertTag: start tagRepository.findByPostIdLock");
         Tag tag = tagRepository.findByPostIdLock(postId).orElseThrow();
@@ -42,7 +42,8 @@ public class TagService {
         tag.setName(name);
         tag.setPost(post);
         System.out.println("upsertTag: sleep");
-        Thread.sleep(5000);
+        Thread.sleep(10000);
+//        tagRepository.sleep();
         tagRepository.save(tag);
         System.out.println("upsertTag: commit");
     }

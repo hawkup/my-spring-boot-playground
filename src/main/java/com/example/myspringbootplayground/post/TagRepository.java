@@ -11,4 +11,7 @@ public interface TagRepository extends CrudRepository<Tag, Long> {
     Optional<Tag> findByPostIdLock(@Param("postId") Long postId);
 
     Optional<Tag> findByPostId(@Param("postId") Long postId);
+
+    @Query(value = "select SLEEP(120)", nativeQuery = true)
+    void sleep();
 }
