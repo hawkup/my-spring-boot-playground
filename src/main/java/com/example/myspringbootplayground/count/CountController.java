@@ -17,6 +17,11 @@ public class CountController {
         return countService.create();
     }
 
+    @PostMapping("{id}/decrease-with-condition")
+    public void decreaseWithCondition(@PathVariable Long id) {
+        countService.decreaseWithCondition(id);
+    }
+
     @PostMapping("{id}/decrease-lock")
     public Count decreaseLock(@PathVariable Long id) throws InterruptedException {
         return countService.decreaseLock(id);

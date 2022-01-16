@@ -18,6 +18,11 @@ public class CountService {
     }
 
     @Transactional
+    public void decreaseWithCondition(Long id) {
+        countRepository.decreaseMoreThanZero(id);
+    }
+
+    @Transactional
     public Count decreaseLock(Long id) throws InterruptedException {
         Count count = countRepository.findByCountIdLock(id).orElseThrow();
         Thread.sleep(500);
